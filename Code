@@ -1,0 +1,50 @@
+from tkinter import *
+import RPi.GPIO as GPIO
+from functools import partial
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
+GPIO.setup(12, GPIO.OUT)
+GPIO.setup(13, GPIO.OUT)
+
+def quit():
+    GPIO.cleanup()
+    quit()
+   
+window = Tk()  
+window.geometry("220x190")  
+RV = IntVar()
+Header = Label(text = "Click to Light LEDs:")  
+Header.pack()
+
+def redLed():
+    GPIO.output(11, GPIO.HIGH)
+    GPIO.output(12, GPIO.LOW)
+    GPIO.output(13, GPIO.LOW)
+def blueLed():
+    GPIO.output(13, GPIO.HIGH)
+    GPIO.output(11, GPIO.LOW)
+    GPIO.output(12, GPIO.LOW)
+   
+def yellowLed():
+    GPIO.output(12, GPIO.HIGH)
+    GPIO.output(11, GPIO.LOW)
+    GPIO.output(13, GPIO.LOW)
+
+   
+radioButton1 = Radiobutton(window, text="RED", variable=RV, value=1,command=redLed)
+radioButton1.pack( anchor = W )  
+ 
+radioButton2 = Radiobutton(window, text="Blue", variable=RV, value=2,command=blueLed)  
+radioButton2.pack( anchor = W )  
+ 
+radioButton3 = Radiobutton(window, text="YELLOW", variable=RV, value=3, command=yellowLed)  
+radioButton3.pack( anchor = W)
+
+Bt=Button(window, text='EXIT', command=partial(quit))
+Bt.pack( anchor = CENTER)
+
+
+label = Label(window)  
+label.pack()  
+window.mainloop()  
